@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:34:53 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/08 11:21:20 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/08 18:18:26 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ void	ft_pb(t_list **last_a, t_list **last_b)
 	else {
 		aux = (*last_b)->next;
 		(*last_b)->next = (*last_a)->next;
-		(*last_a)->next = (*last_a)->next->next;
+		if ((*last_a)->next == (*last_a)->next->next)
+			(*last_a) = NULL;
+		else
+			(*last_a)->next = (*last_a)->next->next;
 		(*last_b)->next->next = aux;
 	}
 }
