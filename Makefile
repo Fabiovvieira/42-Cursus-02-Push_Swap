@@ -16,10 +16,8 @@ SRC_C = src/push_swap.c
 
 all: $(NAME)
 
-$(NAMELIBFT):
+$(NAME):
 	make all -C ./libft
-
-$(NAME): $(NAMELIBFT)
 	$(CC) $(CFLAGS) $(SRC_C) $(NAMELIBFT) -o push_swap
 #	$(CC) $(CFLAGS) $(SRC_S) $(NAMELIBFT) -o server
 
