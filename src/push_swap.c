@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:34:53 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/09 16:01:13 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/09 22:27:20 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,12 +212,12 @@ int	min_index(t_list **lst)
 
 void	ft_sorting(t_list **last_a, t_list **last_b)
 {
-	int	i;
+	// int	i;
 	int	minindex;
 	int	size;
 	int	count;
 
-	i = 0;
+	// i = 0;
 	count = 0;
 	size = ft_lstlastsize(last_a);
 	while (size > 2)
