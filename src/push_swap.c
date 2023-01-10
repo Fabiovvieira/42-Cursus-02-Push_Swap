@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:34:53 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/09 22:27:20 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/10 15:11:00 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,22 +227,42 @@ void	ft_sorting(t_list **last_a, t_list **last_b)
 			while (minindex){
 				*last_a = ft_ra(*last_a);
 				ft_printf("ra\n");
+				ft_printf("Stack A: ");
+				ft_lstprint(last_a);
+				ft_printf("\nStack B: ");
+				ft_lstprint(last_b);
+				ft_printf("\n");
 				minindex--;
 				count++;
 			}
 			ft_pb(last_a, last_b);
 			count++;
 			ft_printf("pb\n");
+			ft_printf("Stack A: ");
+			ft_lstprint(last_a);
+			ft_printf("\nStack B: ");
+			ft_lstprint(last_b);
+			ft_printf("\n");
 		}
 		else {
 			while (minindex < size){
 				*last_a = ft_rra(*last_a);
 				ft_printf("rra\n");
+				ft_printf("Stack A: ");
+				ft_lstprint(last_a);
+				ft_printf("\nStack B: ");
+				ft_lstprint(last_b);
+				ft_printf("\n");
 				minindex++;
 				count++;
 			}
 			ft_pb(last_a, last_b);
 			ft_printf("pb\n");
+			ft_printf("Stack A: ");
+			ft_lstprint(last_a);
+			ft_printf("\nStack B: ");
+			ft_lstprint(last_b);
+			ft_printf("\n");
 			count++;
 		}
 		size = ft_lstlastsize(last_a);
@@ -251,6 +271,11 @@ void	ft_sorting(t_list **last_a, t_list **last_b)
 		ft_sa(last_a);
 		count++;
 		ft_printf("sa\n");
+		ft_printf("Stack A: ");
+		ft_lstprint(last_a);
+		ft_printf("\nStack B: ");
+		ft_lstprint(last_b);
+		ft_printf("\n");
 	}
 	size = ft_lstlastsize(last_b);
 	while (size)
@@ -258,6 +283,11 @@ void	ft_sorting(t_list **last_a, t_list **last_b)
 		ft_pa(last_b, last_a);
 		count++;
 		ft_printf("pa\n");
+		ft_printf("Stack A: ");
+		ft_lstprint(last_a);
+		ft_printf("\nStack B: ");
+		ft_lstprint(last_b);
+		ft_printf("\n");
 		size--;
 	}
 	ft_printf("Number of operations is: %d\n", count);
@@ -312,73 +342,5 @@ int	main(int argc, char **argv)
 	// 	ft_lstprint(&last_b);
 	// 	ft_printf("\n");
 	// }
-
-	//There is error on pa and pb when pushing the last node. Correct this later.
-
-
-	// ft_sa(last_a);
-	// ft_printf("\n");
-	// ft_printf("sa: \n");
-	// ft_printf("Stack A: ");
-	// ft_lstprint(&last_a);
-	// ft_printf("\nStack B: ");
-	// ft_lstprint(&last_b);
-
-	// ft_sa(last_a);
-	// ft_printf("\n");
-	// ft_printf("sa: \n");
-	// ft_printf("Stack A: ");
-	// ft_lstprint(&last_a);
-	// ft_printf("\nStack B: ");
-	// ft_lstprint(&last_b);
-
-	// last_a = ft_ra(last_a);
-	// ft_printf("\n");
-	// ft_printf("ra: \n");
-	// ft_printf("Stack A: ");
-	// ft_lstprint(&last_a);
-	// ft_printf("\nStack B: ");
-	// ft_lstprint(&last_b);
-
-	// last_a = ft_ra(last_a);
-	// ft_printf("\n");
-	// ft_printf("ra: \n");
-	// ft_printf("Stack A: ");
-	// ft_lstprint(&last_a);
-	// ft_printf("\nStack B: ");
-	// ft_lstprint(&last_b);
-
-	// last_a = ft_rra(last_a);
-	// ft_printf("\n");
-	// ft_printf("rra: \n");
-	// ft_printf("Stack A: ");
-	// ft_lstprint(&last_a);
-	// ft_printf("\nStack B: ");
-	// ft_lstprint(&last_b);
-
-	// last_a = ft_rra(last_a);
-	// ft_printf("\n");
-	// ft_printf("rra: \n");
-	// ft_printf("Stack A: ");
-	// ft_lstprint(&last_a);
-	// ft_printf("\nStack B: ");
-	// ft_lstprint(&last_b);
-
-
-	// ft_pb(&last_a, &last_b);
-	// ft_printf("\n");
-	// ft_printf("pb: \n");
-	// ft_printf("Stack A: ");
-	// ft_lstprint(&last_a);
-	// ft_printf("\nStack B: ");
-	// ft_lstprint(&last_b);
-
-	// ft_pb(&last_a, &last_b);
-	// ft_printf("\n");
-	// ft_printf("pb: \n");
-	// ft_printf("Stack A: ");
-	// ft_lstprint(&last_a);
-	// ft_printf("\nStack B: ");
-	// ft_lstprint(&last_b);
 	return (1);
 }
