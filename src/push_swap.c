@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:34:53 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/10 15:11:00 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/19 21:51:50 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,11 @@ void	ft_lstprint(t_list **lst)
 		ft_printf("Empty list\n");
 		return ;
 	}
-	tmp = (*lst)->next;
-	while (tmp != (*lst)){
-		ft_printf("%s ",tmp->content);
+	tmp = (*lst);
+	while (tmp){
+		ft_printf("%d - %d ", *(int *)(tmp->content), *(tmp->index));
 		tmp = tmp->next;
 	}
-	ft_printf("%s ",tmp->content);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)
@@ -47,16 +46,11 @@ void	ft_sa(t_list **lst)
 	t_list	*sec;
 	t_list	*fir;
 
-	if ((*lst) == NULL || (*lst) == (*lst)->next)
+	if ((*lst) == NULL || (*lst)->next == NULL)
 		return ;
-	if ((*lst) == (*lst)->next->next)
-	{
-		(*lst) = ft_ra((*lst));
-		return ;
-	}
-	fir = (*lst)->next;
-	sec = (*lst)->next->next;
-	(*lst)->next = sec;
+	fir = *lst;
+	sec = (*lst)->next;
+	*lst = sec;
 	fir->next = sec->next;
 	sec->next = fir;
 }
@@ -66,17 +60,24 @@ void	ft_sb(t_list **lst)
 	ft_sa(lst);
 }
 
-void	ft_ss(t_list **last_a, t_list **last_b)
+void	ft_ss(t_list **stack_a, t_list **stack_b)
 {
-	ft_sa(last_a);
-	ft_sb(last_b);
+	ft_sa(stack_a);
+	ft_sb(stack_b);
 }
 
 t_list	*ft_ra(t_list *lst)
 {
+	t_list	*tmp;
+
 	if (lst == NULL)
 		return (NULL);
-	return (lst->next);
+	if (lst->next == NULL)
+		return (lst);
+	tmp = lst->next;
+	lst->next = NULL;
+	ft_lstadd_back(&tmp, lst);
+	return (tmp);
 }
 
 t_list	*ft_rb(t_list *lst)
@@ -92,13 +93,25 @@ void	ft_rr(t_list **last_a, t_list **last_b)
 
 t_list	*ft_rra(t_list *lst)
 {
+	t_list	*last;
 	t_list	*tmp;
+
+	tmp = lst;
+	last = ft_lstlast(lst);
 	if (lst == NULL)
 		return (NULL);
-	tmp = lst;
-	while (tmp->next != lst){
-		tmp = tmp->next;
+	if (lst->next == NULL)
+		return (lst);
+	while (lst)
+	{
+		if (lst->next == last)
+		{
+			lst->next = NULL;
+			break;
+		}
+		lst = lst->next;
 	}
+	ft_lstadd_front(&tmp, last);
 	return (tmp);
 }
 
@@ -117,23 +130,18 @@ void	ft_pb(t_list **last_a, t_list **last_b)
 {
 	t_list	*aux;
 
-	aux = NULL;
+	aux = *last_a;;
 	if (*last_a == NULL)
 		return ;
 	if (*last_b == NULL)
 	{
-		*last_b = (*last_a)->next;
-		(*last_a)->next = (*last_a)->next->next;
-		(*last_b)->next = *last_b;
+		*last_a = (*last_a)->next;
+		*last_b = aux;
+		(*last_b)->next = NULL;
 	}
 	else {
-		aux = (*last_b)->next;
-		(*last_b)->next = (*last_a)->next;
-		if ((*last_a)->next == (*last_a)->next->next)
-			(*last_a) = NULL;
-		else
-			(*last_a)->next = (*last_a)->next->next;
-		(*last_b)->next->next = aux;
+		*last_a = (*last_a)->next;
+		ft_lstadd_front(last_b, aux);
 	}
 }
 
@@ -293,54 +301,112 @@ void	ft_sorting(t_list **last_a, t_list **last_b)
 	ft_printf("Number of operations is: %d\n", count);
 }
 
+void	insert_node(t_list **lst, char *str)
+{
+	int	*num;
+
+	num = malloc(sizeof(int));
+	*num = ft_atoi(str);
+	ft_lstadd_back(lst, ft_lstnew(num));
+	ft_lstlast(*lst)->index = NULL;
+}
+
+void	insert_index(t_list **lst, int index)
+{
+	int	*num;
+
+	num = malloc(sizeof(int));
+	*num = index;
+	(*lst)->index = num;
+}
+
+void	min_num(t_list **lst)
+{
+	int		j;
+	int		indexmin;
+	int		contentmin;
+	int		size;
+	t_list	*tmp;
+	t_list	*aux;
+
+	j = 0;
+	indexmin = 0;
+	tmp = *lst;
+	size = ft_lstsize(*lst);
+	contentmin = *(int *)(tmp->content);
+	while (j < size) {
+		while (tmp->index)
+		{
+			tmp = tmp->next;
+			contentmin = *(int *)(tmp->content);
+		}
+		while (tmp){
+			if (*(int *)(tmp->content) <= contentmin && !tmp->index)
+			{
+				aux = tmp;
+				contentmin = *(int *)(tmp->content);
+			}
+			tmp = tmp->next;
+		}
+		insert_index(&aux, indexmin);
+		tmp = *lst;
+		contentmin = *(int *)(tmp->content);
+		indexmin++;
+		j++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	int	i;
-	t_list	*last_a;
-	t_list	*last_b;
+	// t_list	*last_a;
+	// t_list	*last_b;
 	t_list	*stack_a;
-	// char	str[10];
-	// t_list	*stack_b;
+	char	str[10];
+	t_list	*stack_b;
 
 	i = 1;
 	stack_a = NULL;
-	last_a = NULL;
-	last_b = NULL;
-	// stack_b = NULL;
+	// last_a = NULL;
+	// last_b = NULL;
+	stack_b = NULL;
 	if (argc > 1)
 	{
 		while (i < argc)
 		{
-			ft_lstadd_back(&stack_a, ft_lstnew(argv[i]));
+			// ft_lstadd_back(&stack_a, ft_lstnew(argv[i]));
+			insert_node(&stack_a, argv[i]);
 			i++;
 		}
-		last_a = ft_lstlast(stack_a);
-		last_a->next = stack_a;
+		// last_a = ft_lstlast(stack_a);
+		// last_a->next = stack_a;
 	}
+	min_num(&stack_a);
 	ft_printf("Stack A: ");
-	ft_lstprint(&last_a);
+	ft_lstprint(&stack_a);
 	ft_printf("\nStack B: ");
-	ft_lstprint(&last_b);
+	ft_lstprint(&stack_b);
 	// ft_printf("size of stack A is : %d\n", ft_lstlastsize(&last_a));
 	// ft_printf("index of min value of stack A is : %d\n", min_index(&last_a));
 
-	ft_sorting(&last_a, &last_b);
+
+	// ft_sorting(&last_a, &last_b);
 
 
-	ft_printf("Stack A: ");
-	ft_lstprint(&last_a);
-	ft_printf("\nStack B: ");
-	ft_lstprint(&last_b);
+	// ft_printf("Stack A: ");
+	// ft_lstprint(&last_a);
+	// ft_printf("\nStack B: ");
+	// ft_lstprint(&last_b);
 
-	// while (1)
-	// {
-	// 	scanf("%s", str);
-	// 	apply_func(&last_a, &last_b, str);
-	// 	ft_printf("Stack A: ");
-	// 	ft_lstprint(&last_a);
-	// 	ft_printf("\nStack B: ");
-	// 	ft_lstprint(&last_b);
-	// 	ft_printf("\n");
-	// }
+	while (1)
+	{
+		scanf("%s", str);
+		apply_func(&stack_a, &stack_b, str);
+		ft_printf("Stack A: ");
+		ft_lstprint(&stack_a);
+		ft_printf("\nStack B: ");
+		ft_lstprint(&stack_b);
+		ft_printf("\n");
+	}
 	return (1);
 }

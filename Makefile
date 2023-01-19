@@ -18,7 +18,7 @@ all: $(NAME)
 
 $(NAME):
 	make all -C ./libft
-	$(CC) $(CFLAGS) $(SRC_C) $(NAMELIBFT) -o push_swap
+	$(CC) -g $(CFLAGS) $(SRC_C) $(NAMELIBFT) -o push_swap
 #	$(CC) $(CFLAGS) $(SRC_S) $(NAMELIBFT) -o server
 
 #bonus: $(NAMELIBFT)

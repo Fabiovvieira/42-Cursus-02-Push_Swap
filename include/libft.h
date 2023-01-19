@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:23:23 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/04 14:30:25 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/19 17:21:33 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
+	int				*index;
 }	t_list;
 
 typedef struct s_var_print {
