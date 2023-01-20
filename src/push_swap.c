@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:34:53 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/19 21:51:50 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/20 17:07:53 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_lstprint(t_list **lst)
 	}
 	tmp = (*lst);
 	while (tmp){
-		ft_printf("%d - %d ", *(int *)(tmp->content), *(tmp->index));
+		ft_printf("%d - %d | ", *(int *)(tmp->content), *(tmp->index));
 		tmp = tmp->next;
 	}
 }
@@ -204,19 +204,218 @@ int	min_index(t_list **lst)
 
 	i = 0;
 	indexmin = 0;
-	tmp = (*lst)->next;
-	contentmin = ft_atoi(tmp->content);
-	while (i < ft_lstlastsize(lst)){
-		if (ft_atoi(tmp->content) <= contentmin)
+	tmp = *lst;
+	contentmin = *(int *)(tmp->content);
+	while (i < ft_lstsize(*lst)){
+		if (*(int *)(tmp->content) <= contentmin)
 		{
 			indexmin = i;
-			contentmin = ft_atoi(tmp->content);
+			contentmin = *(int *)(tmp->content);
 		}
 		tmp = tmp->next;
 		i++;
 	}
 	return (indexmin);
 }
+
+int	max_index(t_list **lst)
+{
+	int		i;
+	int		indexmax;
+	int		contentmax;
+	t_list	*tmp;
+
+	i = 0;
+	indexmax = 0;
+	tmp = *lst;
+	contentmax = *(int *)(tmp->content);
+	while (i < ft_lstsize(*lst)){
+		if (*(int *)(tmp->content) >= contentmax)
+		{
+			indexmax = i;
+			contentmax = *(int *)(tmp->content);
+		}
+		tmp = tmp->next;
+		i++;
+	}
+	return (indexmax);
+}
+
+int	get_index_partition(t_list **lst, int partition)
+{
+	int		i;
+	int		indexmin;
+	t_list	*tmp;
+	int		size;
+	int 	flag;
+
+	i = 0;
+	size = ft_lstsize(*lst);
+	indexmin = size - 1;
+	flag = 0;
+	tmp = *lst;
+	while (i < ft_lstsize(*lst)){
+		if (*(tmp->index) < partition)
+		{
+			if (flag == 0)
+			{
+				indexmin = i;
+				flag = 1;
+			}
+			else
+			{
+				if (i <= size / 2)
+				{
+					if (i <= indexmin)
+						indexmin = i;
+				}
+				else
+				{
+					if (indexmin <= size / 2)
+					{
+						if ((size - 1 - i) <= indexmin)
+							indexmin = i;
+					}
+					else
+					{
+						if (i >= indexmin)
+							indexmin = i;
+					}
+				}
+			}
+		}
+		tmp = tmp->next;
+		i++;
+	}
+	// ft_printf("get_index |index = %d | multpart = %d\n", indexmin, partition);
+	return (indexmin);
+}
+
+void	ft_sort_lastpart(t_list **last_a, t_list **last_b, int (*func)(t_list **))
+{
+	// int	i;
+	int	minindex;
+	int	size;
+
+	// i = 0;
+	size = ft_lstsize(*last_a);
+	while (size > 2)
+	{
+		minindex = (*func)(last_a);
+		if (minindex <= size / 2){
+			while (minindex){
+				*last_a = ft_ra(*last_a);
+				ft_printf("ra\n");
+				// ft_printf("Stack A: ");
+				// ft_lstprint(last_a);
+				// ft_printf("\nStack B: ");
+				// ft_lstprint(last_b);
+				// ft_printf("\n");
+				minindex--;
+			}
+			ft_pb(last_a, last_b);
+			ft_printf("pb\n");
+			// ft_printf("Stack A: ");
+			// ft_lstprint(last_a);
+			// ft_printf("\nStack B: ");
+			// ft_lstprint(last_b);
+			// ft_printf("\n");
+		}
+		else {
+			while (minindex < size){
+				*last_a = ft_rra(*last_a);
+				ft_printf("rra\n");
+				// ft_printf("Stack A: ");
+				// ft_lstprint(last_a);
+				// ft_printf("\nStack B: ");
+				// ft_lstprint(last_b);
+				// ft_printf("\n");
+				minindex++;
+			}
+			ft_pb(last_a, last_b);
+			ft_printf("pb\n");
+			// ft_printf("Stack A: ");
+			// ft_lstprint(last_a);
+			// ft_printf("\nStack B: ");
+			// ft_lstprint(last_b);
+			// ft_printf("\n");
+		}
+		size = ft_lstsize(*last_a);
+	}
+	if (*(int *)((*last_a)->content) > *(int *)((*last_a)->next->content)){
+		ft_sa(last_a);
+		ft_printf("sa\n");
+		// ft_printf("Stack A: ");
+		// ft_lstprint(last_a);
+		// ft_printf("\nStack B: ");
+		// ft_lstprint(last_b);
+		// ft_printf("\n");
+	}
+}
+
+void	ft_sorting2(t_list **lst_a, t_list **lst_b, int partition)
+{
+	int	size;
+	int	length;
+	int	index;
+	int	part;
+	int	multpart;
+
+	size = ft_lstsize(*lst_a);
+	part = size / partition;
+	multpart = part;
+	length = size;
+	while (size > length / partition)
+	{
+		while (size > (length - multpart))
+		{
+			index = get_index_partition(lst_a, multpart);
+			// ft_printf("index = %d | multpart = %d\n", index, multpart);
+			if (index <= size / 2){
+				while (index){
+					*lst_a = ft_ra(*lst_a);
+					ft_printf("ra\n");
+					// ft_printf("Stack A: ");
+					// ft_lstprint(lst_a);
+					// ft_printf("\nStack B: ");
+					// ft_lstprint(lst_b);
+					// ft_printf("\n");
+					index--;
+				}
+				ft_pb(lst_a, lst_b);
+				ft_printf("pb\n");
+				// ft_printf("Stack A: ");
+				// ft_lstprint(lst_a);
+				// ft_printf("\nStack B: ");
+				// ft_lstprint(lst_b);
+				// ft_printf("\n");
+			}
+			else {
+				while (index < size){
+					*lst_a = ft_rra(*lst_a);
+					ft_printf("rra\n");
+					// ft_printf("Stack A: ");
+					// ft_lstprint(lst_a);
+					// ft_printf("\nStack B: ");
+					// ft_lstprint(lst_b);
+					// ft_printf("\n");
+					index++;
+				}
+				ft_pb(lst_a, lst_b);
+				ft_printf("pb\n");
+				// ft_printf("Stack A: ");
+				// ft_lstprint(lst_a);
+				// ft_printf("\nStack B: ");
+				// ft_lstprint(lst_b);
+				// ft_printf("\n");
+			}
+			size--;
+		}
+		multpart += part;
+	}
+}
+
+
 
 void	ft_sorting(t_list **last_a, t_list **last_b)
 {
@@ -356,13 +555,15 @@ void	min_num(t_list **lst)
 	}
 }
 
+
+
 int	main(int argc, char **argv)
 {
 	int	i;
 	// t_list	*last_a;
 	// t_list	*last_b;
 	t_list	*stack_a;
-	char	str[10];
+	// char	str[10];
 	t_list	*stack_b;
 
 	i = 1;
@@ -392,21 +593,29 @@ int	main(int argc, char **argv)
 
 	// ft_sorting(&last_a, &last_b);
 
+	ft_sorting2(&stack_a, &stack_b, 12);
+	ft_sort_lastpart(&stack_a, &stack_b, &min_index);
+	ft_sort_lastpart(&stack_b, &stack_a, &max_index);
+
+	ft_printf("Stack A: ");
+	ft_lstprint(&stack_a);
+	ft_printf("\nStack B: ");
+	ft_lstprint(&stack_b);
 
 	// ft_printf("Stack A: ");
 	// ft_lstprint(&last_a);
 	// ft_printf("\nStack B: ");
 	// ft_lstprint(&last_b);
 
-	while (1)
-	{
-		scanf("%s", str);
-		apply_func(&stack_a, &stack_b, str);
-		ft_printf("Stack A: ");
-		ft_lstprint(&stack_a);
-		ft_printf("\nStack B: ");
-		ft_lstprint(&stack_b);
-		ft_printf("\n");
-	}
+	// while (1)
+	// {
+	// 	scanf("%s", str);
+	// 	apply_func(&stack_a, &stack_b, str);
+	// 	ft_printf("Stack A: ");
+	// 	ft_lstprint(&stack_a);
+	// 	ft_printf("\nStack B: ");
+	// 	ft_lstprint(&stack_b);
+	// 	ft_printf("\n");
+	// }
 	return (1);
 }
