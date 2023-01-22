@@ -6,11 +6,27 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 11:10:16 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/22 11:41:22 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/22 21:28:32 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	ft_lstprint(t_list **lst)
+{
+	t_list	*tmp;
+
+	if(*lst == NULL) {
+		ft_printf("Empty list\n");
+		return ;
+	}
+	tmp = (*lst);
+	while (tmp){
+		// ft_printf("%d - %d | ", *(long *)(tmp->content), *(tmp->index));
+		ft_printf("%d ", *(long *)(tmp->content));
+		tmp = tmp->next;
+	}
+}
 
 void	ft_sa(t_list **lst)
 {
@@ -137,30 +153,100 @@ void	ft_pa(t_list **last_b, t_list **last_a)
 
 void	apply_func(t_list **last_a, t_list **last_b, char *str)
 {
-	if (!ft_strcmp(str, "sa"))
+	if (!ft_strcmp(str, "sa\n"))
 		ft_sa(last_a);
-	else if (!ft_strcmp(str, "sb"))
+	else if (!ft_strcmp(str, "sb\n"))
 		ft_sb(last_b);
-	else if (!ft_strcmp(str, "ss"))
+	else if (!ft_strcmp(str, "ss\n"))
 		ft_ss(last_a, last_b);
-	else if (!ft_strcmp(str, "ra"))
+	else if (!ft_strcmp(str, "ra\n"))
 		*last_a = ft_ra(*last_a);
-	else if (!ft_strcmp(str, "rb"))
+	else if (!ft_strcmp(str, "rb\n"))
 		*last_b = ft_rb(*last_b);
-	else if (!ft_strcmp(str, "rr"))
+	else if (!ft_strcmp(str, "rr\n"))
 		ft_rr(last_a, last_b);
-	else if (!ft_strcmp(str, "rra"))
+	else if (!ft_strcmp(str, "rra\n"))
 		*last_a = ft_rra(*last_a);
-	else if (!ft_strcmp(str, "rrb"))
+	else if (!ft_strcmp(str, "rrb\n"))
 		*last_b = ft_rrb(*last_b);
-	else if (!ft_strcmp(str, "rrr"))
+	else if (!ft_strcmp(str, "rrr\n"))
 		ft_rrr(last_a, last_b);
-	else if (!ft_strcmp(str, "pa"))
+	else if (!ft_strcmp(str, "pa\n"))
 		ft_pa(last_b, last_a);
-	else if (!ft_strcmp(str, "pb"))
+	else if (!ft_strcmp(str, "pb\n"))
 		ft_pb(last_a, last_b);
 	else
 		ft_printf("There is no such commmand. Try Again\n");
+}
+
+int	ft_strisdigit(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] < 48 || str[i] > 57)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	check_dup(t_list **lst, long num)
+{
+	t_list	*tmp;
+
+	tmp = *lst;
+	while (tmp)
+	{
+		if (num == *(long *)tmp->content)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int	insert_node(t_list **lst, char *str)
+{
+	long	*num;
+
+	num = malloc(sizeof(long));
+	if (!ft_strisdigit(str))
+		return (0);
+	*num = ft_atoi(str);
+	if (*num > 2147483647 || *num < -2147483648)
+		return (0);
+	if (check_dup(lst, *num))
+		return (0);
+	ft_lstadd_back(lst, ft_lstnew(num));
+	ft_lstlast(*lst)->index = NULL;
+	return (1);
+}
+
+void	check_sort(t_list **last_a, t_list **last_b)
+{
+	t_list	*tmp;
+
+	tmp = *last_a;
+	if (*last_b != NULL)
+	{
+		ft_printf("KO\n");
+		return ;
+	}
+	while (tmp)
+	{
+		if (tmp->next == NULL)
+		{
+			ft_printf("OK\n");
+			break;
+		}
+		if (*(int *)tmp->content > *(int *)tmp->next->content)
+		{
+			ft_printf("KO\n");
+		}
+		tmp = tmp->next;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -168,13 +254,36 @@ int	main(int argc, char **argv)
 	char	*str;
 	int		fd;
 	int		i;
+	char	**list;
+	t_list	*stack_a;
+	t_list	*stack_b;
 
 	(void)argc;
 	(void)argv;
 	fd = 0;
 	i = 0;
-	while ((str = get_next_line(fd)))
+	stack_a = NULL;
+	stack_b = NULL;
+	if (argc == 2)
 	{
-		ft_printf("fd - %3d || LINE - %3d || lengh - %3d: %s",fd, i++, (int)ft_strlen(str), str);
+		list = ft_split(argv[1], ' ');
+		while (list[i])
+		{
+			// ft_lstadd_back(&stack_a, ft_lstnew(argv[i]));
+			// ft_printf("%s\n",list[i]);
+			if (!insert_node(&stack_a, list[i]))
+			{
+				ft_printf("Error\n");
+				return (1);
+			}
+			i++;
+		}
+		while ((str = get_next_line(fd)))
+		{
+			ft_printf("%s", str);
+			apply_func(&stack_a, &stack_b, str);
+		}
+		check_sort(&stack_a, &stack_b);
 	}
+	return (1);
 }
