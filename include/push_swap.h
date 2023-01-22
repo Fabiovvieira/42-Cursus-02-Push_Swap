@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:18:36 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/19 18:45:31 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/22 09:37:31 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ t_list	*ft_rrb(t_list *lst);
 void	ft_rrr(t_list **last_a, t_list **last_b);
 void	ft_pb(t_list **last_a, t_list **last_b);
 void	ft_pa(t_list **last_b, t_list **last_a);
-void	insert_node(t_list **lst, char *str);
+int		insert_node(t_list **lst, char *str);
 
 #endif
