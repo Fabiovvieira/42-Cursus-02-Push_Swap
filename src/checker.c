@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 11:10:16 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/22 21:28:32 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:54:09 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,23 +264,41 @@ int	main(int argc, char **argv)
 	i = 0;
 	stack_a = NULL;
 	stack_b = NULL;
-	if (argc == 2)
+	if (argc >= 2)
 	{
-		list = ft_split(argv[1], ' ');
-		while (list[i])
+		if (argc == 2)
 		{
-			// ft_lstadd_back(&stack_a, ft_lstnew(argv[i]));
-			// ft_printf("%s\n",list[i]);
-			if (!insert_node(&stack_a, list[i]))
+			list = ft_split(argv[1], ' ');
+			while (list[i])
 			{
-				ft_printf("Error\n");
-				return (1);
+				// ft_lstadd_back(&stack_a, ft_lstnew(argv[i]));
+				// ft_printf("%s\n",list[i]);
+				if (!insert_node(&stack_a, list[i]))
+				{
+					ft_printf("Error\n");
+					return (1);
+				}
+				i++;
 			}
-			i++;
+		}
+		else if (argc > 2)
+		{
+			i = 1;
+			while (i <= argc - 1)
+			{
+				// ft_lstadd_back(&stack_a, ft_lstnew(argv[i]));
+				// ft_printf("%s\n",list[i]);
+				if (!insert_node(&stack_a, argv[i]))
+				{
+					ft_printf("Error\n");
+					return (1);
+				}
+				i++;
+			}
 		}
 		while ((str = get_next_line(fd)))
 		{
-			ft_printf("%s", str);
+			// ft_printf("%s", str);
 			apply_func(&stack_a, &stack_b, str);
 		}
 		check_sort(&stack_a, &stack_b);

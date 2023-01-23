@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:34:53 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/22 10:54:56 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:00:22 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -641,6 +641,8 @@ int	ft_strisdigit(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == 43 || str[i] == 45)
+		i++;
 	while (str[i])
 	{
 		if (str[i] < 48 || str[i] > 57)
@@ -762,21 +764,39 @@ int	main(int argc, char **argv)
 	i = 0;
 	stack_a = NULL;
 	// last_a = NULL;
-	// last_b = NULL;
+	// last_b = NULL;1 -4 5 0 10
 	stack_b = NULL;
-	if (argc == 2)
+	if (argc >= 2)
 	{
-		list = ft_split(argv[1], ' ');
-		while (list[i])
+		if (argc == 2)
 		{
-			// ft_lstadd_back(&stack_a, ft_lstnew(argv[i]));
-			// ft_printf("%s\n",list[i]);
-			if (!insert_node(&stack_a, list[i]))
+			list = ft_split(argv[1], ' ');
+			while (list[i])
 			{
-				ft_printf("Error\n");
-				return (1);
+				// ft_lstadd_back(&stack_a, ft_lstnew(argv[i]));
+				// ft_printf("%s\n",list[i]);
+				if (!insert_node(&stack_a, list[i]))
+				{
+					ft_printf("Error\n");
+					return (1);
+				}
+				i++;
 			}
-			i++;
+		}
+		else if (argc > 2)
+		{
+			i = 1;
+			while (i <= argc - 1)
+			{
+				// ft_lstadd_back(&stack_a, ft_lstnew(argv[i]));
+				// ft_printf("%s\n",list[i]);
+				if (!insert_node(&stack_a, argv[i]))
+				{
+					ft_printf("Error\n");
+					return (1);
+				}
+				i++;
+			}
 		}
 		// last_a = ft_lstlast(stack_a);
 		// last_a->next = stack_a;
@@ -795,7 +815,7 @@ int	main(int argc, char **argv)
 
 		// ft_sorting(&last_a, &last_b);
 
-		ft_sorting2(&stack_a, &stack_b, 5);
+		ft_sorting2(&stack_a, &stack_b, 4);
 		ft_sort_lastpart(&stack_a, &stack_b, &min_index);
 		ft_sort_lastpart(&stack_b, &stack_a, &max_index);
 		last_move(&stack_a, &stack_b);
