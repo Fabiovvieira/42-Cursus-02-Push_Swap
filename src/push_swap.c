@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:34:53 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/23 16:00:22 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/24 15:50:48 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 void	ft_lstprint(t_list **lst)
 {
 	t_list	*tmp;
+	int		i;
 
+	i = 0;
 	if(*lst == NULL) {
 		ft_printf("Empty list\n");
 		return ;
@@ -25,8 +27,10 @@ void	ft_lstprint(t_list **lst)
 	tmp = (*lst);
 	while (tmp){
 		// ft_printf("%d - %d | ", *(long *)(tmp->content), *(tmp->index));
+		// ft_printf("%d - %d ", *(long *)(tmp->content), i);
 		ft_printf("%d ", *(long *)(tmp->content));
 		tmp = tmp->next;
+		i++;
 	}
 }
 
@@ -294,15 +298,25 @@ int	get_index_partition(t_list **lst, int partition)
 	return (indexmin);
 }
 
-// void	check_and_
-
 void	ft_sort_lastpart(t_list **last_a, t_list **last_b, int (*func)(t_list **))
 {
-	// int	i;
 	int	index;
 	int	size;
 
-	// i = 0;
+	// if (func == &min_index){
+	// 	ft_printf("\n_________________\n");
+	// 	ft_printf("Stack A: ");
+	// 	ft_lstprint(last_a);
+	// 	ft_printf("\nStack B: ");
+	// 	ft_lstprint(last_b);
+	// }
+	// else if (func == &max_index){
+	// 	ft_printf("\n_________________\n");
+	// 	ft_printf("Stack A: ");
+	// 	ft_lstprint(last_b);
+	// 	ft_printf("\nStack B: ");
+	// 	ft_lstprint(last_a);
+	// }
 	size = ft_lstsize(*last_a);
 	while (size > 2)
 	{
@@ -371,84 +385,52 @@ void	ft_sort_lastpart(t_list **last_a, t_list **last_b, int (*func)(t_list **))
 				// 	}
 				// }
 				*last_a = ft_ra(*last_a);
-				// system("clear");
 				if (func == &min_index)
 					ft_printf("ra\n");
 				else
 					ft_printf("rb\n");
-				// ft_printf("Stack A: ");
-				// ft_lstprint(last_a);
-				// ft_printf("\nStack B: ");
-				// ft_lstprint(last_b);
-				// ft_printf("\n");
-				// usleep(TSTOP);
 				index--;
 			}
 			ft_pb(last_a, last_b);
-			// system("clear");
 			if (func == &min_index)
 				ft_printf("pb\n");
 			else
 				ft_printf("pa\n");
-			// ft_printf("Stack A: ");
-			// ft_lstprint(last_a);
-			// ft_printf("\nStack B: ");
-			// ft_lstprint(last_b);
-			// ft_printf("\n");
-			// usleep(TSTOP);
 		}
 		else {
 			while (index < size){
 				*last_a = ft_rra(*last_a);
-				// system("clear");
 				if (func == &min_index)
 					ft_printf("rra\n");
 				else
 					ft_printf("rrb\n");
-				// ft_printf("Stack A: ");
-				// ft_lstprint(last_a);
-				// ft_printf("\nStack B: ");
-				// ft_lstprint(last_b);
-				// ft_printf("\n");
-				// usleep(TSTOP);
 				index++;
 			}
 			ft_pb(last_a, last_b);
-			// system("clear");
 			if (func == &min_index)
 				ft_printf("pb\n");
 			else
 				ft_printf("pa\n");
-			// ft_printf("Stack A: ");
-			// ft_lstprint(last_a);
-			// ft_printf("\nStack B: ");
-			// ft_lstprint(last_b);
-			// ft_printf("\n");
-			// usleep(TSTOP);
 		}
 		size = ft_lstsize(*last_a);
 	}
 	if ((*(long *)((*last_a)->content) > *(long *)((*last_a)->next->content)) && func == &min_index){
 		ft_sa(last_a);
-		// system("clear");
 		ft_printf("sa\n");
+		// ft_printf("_________________\n");
 		// ft_printf("Stack A: ");
 		// ft_lstprint(last_a);
 		// ft_printf("\nStack B: ");
 		// ft_lstprint(last_b);
-		// ft_printf("\n");
-		// usleep(TSTOP);
 	}
 	else if ((*(long *)((*last_a)->content) < *(long *)((*last_a)->next->content)) && func == &max_index){
 		ft_sa(last_a);
-		// system("clear");
 		ft_printf("sb\n");
+		// ft_printf("_________________\n");
 		// ft_printf("Stack A: ");
-		// ft_lstprint(last_a);
-		// ft_printf("\nStack B: ");
 		// ft_lstprint(last_b);
-		// ft_printf("\n");
-		// usleep(TSTOP);
+		// ft_printf("\nStack B: ");
+		// ft_lstprint(last_a);
 	}
 }
 
@@ -464,12 +446,13 @@ void	ft_sorting2(t_list **lst_a, t_list **lst_b, int partition)
 	part = size / partition;
 	multpart = part;
 	length = size;
+	// ft_printf("size = %d | part = %d | multpart = %d | length = %d\n", size, part, multpart, length);
 	while (size > length / partition)
 	{
-		while (size > (length - multpart))
+		while (size > (length - multpart) - length % partition)
+		// while (size > (length - multpart))
 		{
 			index = get_index_partition(lst_a, multpart);
-			// ft_printf("index = %d | multpart = %d\n", index, multpart);
 			if (index <= size / 2){
 				while (index > 0){
 					// if (index == 1)
@@ -502,67 +485,118 @@ void	ft_sorting2(t_list **lst_a, t_list **lst_b, int partition)
 					// 	}
 					// }
 					*lst_a = ft_ra(*lst_a);
-					// system("clear");
 					ft_printf("ra\n");
-					// ft_printf("Stack A: ");
-					// ft_lstprint(lst_a);
-					// ft_printf("\nStack B: ");
-					// ft_lstprint(lst_b);
-					// ft_printf("\n");
-					// usleep(TSTOP);
 					index--;
 				}
 				ft_pb(lst_a, lst_b);
-				// system("clear");
 				ft_printf("pb\n");
-				// ft_printf("Stack A: ");
-				// ft_lstprint(lst_a);
-				// ft_printf("\nStack B: ");
-				// ft_lstprint(lst_b);
-				// ft_printf("\n");
-				// usleep(TSTOP);
 			}
 			else {
 				while (index < size){
 					*lst_a = ft_rra(*lst_a);
-					// system("clear");
 					ft_printf("rra\n");
-					// ft_printf("Stack A: ");
-					// ft_lstprint(lst_a);
-					// ft_printf("\nStack B: ");
-					// ft_lstprint(lst_b);
-					// ft_printf("\n");
-					// usleep(TSTOP);
 					index++;
 				}
 				ft_pb(lst_a, lst_b);
-				// system("clear");
 				ft_printf("pb\n");
-				// ft_printf("Stack A: ");
-				// ft_lstprint(lst_a);
-				// ft_printf("\nStack B: ");
-				// ft_lstprint(lst_b);
-				// ft_printf("\n");
-				// usleep(TSTOP);
 			}
 			size--;
+			// ft_printf("Stack A: ");
+			// ft_lstprint(lst_a);
+			// ft_printf("\nStack B: ");
+			// ft_lstprint(lst_b);
 		}
 		multpart += part;
 	}
+	// ft_printf("size = %d | part = %d | multpart = %d | length = %d\n", size, part, multpart, length);
+}
+
+
+void	ft_sorting3(t_list **lst_a, t_list **lst_b, int partition)
+{
+	int	size;
+	int	length;
+	int	index;
+	int	part;
+	int	multpart;
+
+	size = ft_lstsize(*lst_a);
+	part = size / partition;
+	multpart = part;
+	length = size;
+	// ft_printf("size = %d | part = %d | multpart = %d | length = %d\n", size, part, multpart, length);
+	while (size > 2)
+	{
+		while (size > (length - multpart) - length % partition)
+		// while (size > (length - multpart))
+		{
+			index = get_index_partition(lst_a, multpart);
+			if (index <= size / 2){
+				while (index > 0){
+					// if (index == 1)
+					// {
+					// 	if (*(int *)((*lst_b)->content) < *(int *)((*lst_b)->next->content))
+					// 	{
+					// 		ft_ss(lst_a, lst_b);
+					// 		// system("clear");
+					// 		ft_printf("ss\n");
+					// 		// ft_printf("Stack A: ");
+					// 		// ft_lstprint(last_a);
+					// 		// ft_printf("\nStack B: ");
+					// 		// ft_lstprint(last_b);
+					// 		// ft_printf("\n");
+					// 		// usleep(TSTOP);
+					// 		break;
+					// 	}
+					// 	else
+					// 	{
+					// 		ft_sa(lst_a);
+					// 		// system("clear");
+					// 		ft_printf("sa\n");
+					// 		// ft_printf("Stack A: ");
+					// 		// ft_lstprint(last_a);
+					// 		// ft_printf("\nStack B: ");
+					// 		// ft_lstprint(last_b);
+					// 		// ft_printf("\n");
+					// 		// usleep(TSTOP);
+					// 		break;
+					// 	}
+					// }
+					*lst_a = ft_ra(*lst_a);
+					ft_printf("ra\n");
+					index--;
+				}
+				ft_pb(lst_a, lst_b);
+				ft_printf("pb\n");
+			}
+			else {
+				while (index < size){
+					*lst_a = ft_rra(*lst_a);
+					ft_printf("rra\n");
+					index++;
+				}
+				ft_pb(lst_a, lst_b);
+				ft_printf("pb\n");
+			}
+			size--;
+			// ft_printf("Stack A: ");
+			// ft_lstprint(lst_a);
+			// ft_printf("\nStack B: ");
+			// ft_lstprint(lst_b);
+		}
+		multpart += part;
+	}
+	// ft_printf("size = %d | part = %d | multpart = %d | length = %d\n", size, part, multpart, length);
 }
 
 
 
 void	ft_sorting(t_list **last_a, t_list **last_b)
 {
-	// int	i;
 	int	minindex;
 	int	size;
-	int	count;
 
-	// i = 0;
-	count = 0;
-	size = ft_lstlastsize(last_a);
+	size = ft_lstsize(*last_a);
 	while (size > 2)
 	{
 		minindex = min_index(last_a);
@@ -570,70 +604,33 @@ void	ft_sorting(t_list **last_a, t_list **last_b)
 			while (minindex){
 				*last_a = ft_ra(*last_a);
 				ft_printf("ra\n");
-				ft_printf("Stack A: ");
-				ft_lstprint(last_a);
-				ft_printf("\nStack B: ");
-				ft_lstprint(last_b);
-				ft_printf("\n");
 				minindex--;
-				count++;
 			}
 			ft_pb(last_a, last_b);
-			count++;
 			ft_printf("pb\n");
-			ft_printf("Stack A: ");
-			ft_lstprint(last_a);
-			ft_printf("\nStack B: ");
-			ft_lstprint(last_b);
-			ft_printf("\n");
 		}
 		else {
 			while (minindex < size){
 				*last_a = ft_rra(*last_a);
 				ft_printf("rra\n");
-				ft_printf("Stack A: ");
-				ft_lstprint(last_a);
-				ft_printf("\nStack B: ");
-				ft_lstprint(last_b);
-				ft_printf("\n");
 				minindex++;
-				count++;
 			}
 			ft_pb(last_a, last_b);
 			ft_printf("pb\n");
-			ft_printf("Stack A: ");
-			ft_lstprint(last_a);
-			ft_printf("\nStack B: ");
-			ft_lstprint(last_b);
-			ft_printf("\n");
-			count++;
 		}
-		size = ft_lstlastsize(last_a);
+		size = ft_lstsize(*last_a);
 	}
-	if (ft_atoi((*last_a)->content) < ft_atoi((*last_a)->next->content)){
+	if (*(long *)((*last_a)->content) > *(long *)((*last_a)->next->content)){
 		ft_sa(last_a);
-		count++;
 		ft_printf("sa\n");
-		ft_printf("Stack A: ");
-		ft_lstprint(last_a);
-		ft_printf("\nStack B: ");
-		ft_lstprint(last_b);
-		ft_printf("\n");
 	}
-	size = ft_lstlastsize(last_b);
+	size = ft_lstsize(*last_b);
 	while (size)
 	{
 		ft_pa(last_b, last_a);
-		count++;
 		ft_printf("pa\n");
-		ft_printf("Stack A: ");
-		ft_lstprint(last_a);
-		ft_printf("\nStack B: ");
-		ft_lstprint(last_b);
-		ft_printf("\n");
 		size--;
 	}
-	ft_printf("Number of operations is: %d\n", count);
 }
 
 int	ft_strisdigit(char *str)
@@ -731,24 +728,9 @@ void	min_num(t_list **lst)
 void	last_move(t_list **lst_a, t_list **lst_b)
 {
 	ft_pa(lst_b, lst_a);
-	// system("clear");
 	ft_printf("pa\n");
-	// ft_printf("Stack A: ");
-	// ft_lstprint(lst_a);
-	// ft_printf("\nStack B: ");
-	// ft_lstprint(lst_b);
-	// ft_printf("\n");
-	// usleep(TSTOP);
-
 	ft_pa(lst_b, lst_a);
-	// system("clear");
 	ft_printf("pa\n");
-	// ft_printf("Stack A: ");
-	// ft_lstprint(lst_a);
-	// ft_printf("\nStack B: ");
-	// ft_lstprint(lst_b);
-	// ft_printf("\n");
-	// usleep(TSTOP);
 }
 
 int	main(int argc, char **argv)
@@ -760,12 +742,14 @@ int	main(int argc, char **argv)
 	// char	str[10];
 	t_list	*stack_b;
 	char	**list;
+	int		size;
 
 	i = 0;
 	stack_a = NULL;
 	// last_a = NULL;
 	// last_b = NULL;1 -4 5 0 10
 	stack_b = NULL;
+	size = 0;
 	if (argc >= 2)
 	{
 		if (argc == 2)
@@ -782,6 +766,7 @@ int	main(int argc, char **argv)
 				}
 				i++;
 			}
+			size = i;
 		}
 		else if (argc > 2)
 		{
@@ -797,10 +782,10 @@ int	main(int argc, char **argv)
 				}
 				i++;
 			}
+			size = i - 1;
 		}
 		// last_a = ft_lstlast(stack_a);
 		// last_a->next = stack_a;
-		min_num(&stack_a);
 		// ft_printf("Stack A: ");
 		// ft_lstprint(&stack_a);
 		// ft_printf("\nStack B: ");
@@ -812,13 +797,38 @@ int	main(int argc, char **argv)
 		// ft_printf("size of stack A is : %d\n", ft_lstlastsize(&last_a));
 		// ft_printf("index of min value of stack A is : %d\n", min_index(&last_a));
 
+		if (size < 100)
+			ft_sorting(&stack_a, &stack_b);
+		else if (size >= 100 && size < 300)
+		{
+			min_num(&stack_a);
+			ft_sorting2(&stack_a, &stack_b, 4);
+			ft_sort_lastpart(&stack_a, &stack_b, &min_index);
+			ft_sort_lastpart(&stack_b, &stack_a, &max_index);
+			last_move(&stack_a, &stack_b);
+		}
+		else if (size >= 300 && size < 1000)
+		{
+			min_num(&stack_a);
+			ft_sorting2(&stack_a, &stack_b, 10);
+			// ft_sorting3(&stack_a, &stack_b, 10);
+			// ft_sorting3(&stack_b, &stack_a, 20);
+			ft_sort_lastpart(&stack_a, &stack_b, &min_index);
+			ft_sort_lastpart(&stack_b, &stack_a, &max_index);
+			last_move(&stack_a, &stack_b);
+		}
+		else
+		{
+			min_num(&stack_a);
+			ft_sorting2(&stack_a, &stack_b, 50);
+			ft_sort_lastpart(&stack_a, &stack_b, &min_index);
+			ft_sort_lastpart(&stack_b, &stack_a, &max_index);
+			last_move(&stack_a, &stack_b);
+		}
 
-		// ft_sorting(&last_a, &last_b);
 
-		ft_sorting2(&stack_a, &stack_b, 4);
-		ft_sort_lastpart(&stack_a, &stack_b, &min_index);
-		ft_sort_lastpart(&stack_b, &stack_a, &max_index);
-		last_move(&stack_a, &stack_b);
+
+
 
 
 		// system("clear");
