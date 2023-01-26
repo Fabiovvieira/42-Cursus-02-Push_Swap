@@ -8,7 +8,16 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -I $(LIBDIR)
 
-SRC_C = src/push_swap.c
+SRC_C = src/push_swap.c \
+		src/op_one.c \
+		src/op_two.c \
+		src/op_three.c \
+		src/op_index.c \
+		src/op_create_lst.c \
+		src/sort_one.c \
+		src/sort_100_plus.c \
+		src/sort_100_plus_aux.c \
+		src/sort_100_less.c
 #SRC_S = src/server.c
 
 SRC_C_BONUS = src/checker.c
