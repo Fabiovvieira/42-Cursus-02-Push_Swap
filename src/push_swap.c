@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:34:53 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/27 15:43:50 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/27 17:29:19 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,19 @@ void	select_sort(t_list **stack_a, t_list **stack_b, int size)
 	else if (size >= 100 && size < 300)
 	{
 		ft_sort_plus_100(stack_a, stack_b, 3);
-		ft_sort_lastpart(stack_b, stack_a, &max_index);
+		ft_sort_lastp(stack_b, stack_a, &max_index);
 		last_move(stack_a, stack_b);
 	}
 	else if (size >= 300 && size < 1000)
 	{
 		ft_sort_plus_100(stack_a, stack_b, 5);
-		ft_sort_lastpart(stack_b, stack_a, &max_index);
+		ft_sort_lastp(stack_b, stack_a, &max_index);
 		last_move(stack_a, stack_b);
 	}
 	else
 	{
 		ft_sort_plus_100(stack_a, stack_b, 10);
-		ft_sort_lastpart(stack_b, stack_a, &max_index);
+		ft_sort_lastp(stack_b, stack_a, &max_index);
 		last_move(stack_a, stack_b);
 	}
 }
