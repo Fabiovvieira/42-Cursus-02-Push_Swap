@@ -17,7 +17,8 @@ SRC_C = src/push_swap.c \
 		src/sort_one.c \
 		src/sort_100_plus.c \
 		src/sort_100_plus_aux.c \
-		src/sort_100_less.c
+		src/sort_100_less.c \
+		src/check_sort.c
 #SRC_S = src/server.c
 
 SRC_C_BONUS = src/checker.c

@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:34:53 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/26 22:18:08 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/27 15:43:50 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ int	insert_with_split(t_list **stack_a, char ***list, char **argv)
 
 	i = 0;
 	*list = ft_split(argv[1], ' ');
-	while (*list[i])
+	while ((*list)[i])
 	{
-		if (!insert_node(stack_a, *list[i]))
+		if (!insert_node(stack_a, (*list)[i]))
 		{
-			ft_printf("Error\n");
+			write(2, "Error\n", 6);
 			return (1);
 		}
 		i++;
@@ -86,7 +86,7 @@ int	insert_with_multiarg(t_list **stack_a, int argc, char **argv)
 	{
 		if (!insert_node(stack_a, argv[i]))
 		{
-			ft_printf("Error\n");
+			write(2, "Error\n", 6);
 			return (1);
 		}
 		i++;
@@ -116,7 +116,8 @@ int	main(int argc, char **argv)
 		{
 			size = insert_with_multiarg(&stack_a, argc, argv);
 		}
-		select_sort(&stack_a, &stack_b, size);
+		if (size > 1 && check_sort(stack_a) == 0)
+			select_sort(&stack_a, &stack_b, size);
 		free_stacks(&stack_a);
 		free_split(list);
 	}

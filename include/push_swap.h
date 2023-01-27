@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:18:36 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/26 11:35:49 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/01/27 15:46:26 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,7 @@ void	free_split(char **list);
 void	select_sort(t_list **stack_a, t_list **stack_b, int size);
 int		insert_with_split(t_list **stack_a, char ***list, char **argv);
 int		insert_with_multiarg(t_list **stack_a, int argc, char **argv);
+
+int		check_sort(t_list *stack_a);
 
 #endif
