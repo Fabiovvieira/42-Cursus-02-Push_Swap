@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:22:31 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/27 17:29:20 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/02/07 14:53:09 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	aux_laspart(t_list **lst_a, t_list **lst_b, int *index, int size)
 	}
 }
 
-void	ft_sort_lastp(t_list **lst_a, t_list **lst_b, int (*func)(t_list **))
+void	ft_sort_lastpart(t_list **lst_a, t_list **lst_b, int (*fun)(t_list **))
 {
 	int	index;
 	int	size;
@@ -46,7 +46,7 @@ void	ft_sort_lastp(t_list **lst_a, t_list **lst_b, int (*func)(t_list **))
 	size = ft_lstsize(*lst_a);
 	while (size > 2)
 	{
-		index = (*func)(lst_a);
+		index = (*fun)(lst_a);
 		aux_laspart(lst_a, lst_b, &index, size);
 		size = ft_lstsize(*lst_a);
 	}

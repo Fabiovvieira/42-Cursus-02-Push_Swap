@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:34:53 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/27 17:29:19 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:57:26 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,18 @@ void	free_split(char **list)
 	free(list);
 }
 
+void ft_printlst(t_list **stack)
+{
+	t_list *tmp;
+
+	tmp = *stack;
+	while (tmp)
+	{
+		ft_printf("%d ", *(tmp->index));
+		tmp = tmp->next;
+	}
+}
+
 void	select_sort(t_list **stack_a, t_list **stack_b, int size)
 {
 	sort_indexation(stack_a);
@@ -38,20 +50,23 @@ void	select_sort(t_list **stack_a, t_list **stack_b, int size)
 		ft_sort_less_100(stack_a, stack_b);
 	else if (size >= 100 && size < 300)
 	{
-		ft_sort_plus_100(stack_a, stack_b, 3);
-		ft_sort_lastp(stack_b, stack_a, &max_index);
-		last_move(stack_a, stack_b);
+		ft_sort_plus_100(stack_a, stack_b, 5);
+		// ft_printlst(stack_b);
+		// ft_sort_plus_100_1(stack_a, stack_b, 10);
+		// ft_sort_lastpart(stack_b, stack_a, &max_index);
+		// last_move(stack_a, stack_b);
 	}
 	else if (size >= 300 && size < 1000)
 	{
-		ft_sort_plus_100(stack_a, stack_b, 5);
-		ft_sort_lastp(stack_b, stack_a, &max_index);
-		last_move(stack_a, stack_b);
+		ft_sort_plus_100(stack_a, stack_b, 8);
+		ft_printlst(stack_b);
+		// ft_sort_lastpart(stack_b, stack_a, &max_index);
+		// last_move(stack_a, stack_b);
 	}
 	else
 	{
 		ft_sort_plus_100(stack_a, stack_b, 10);
-		ft_sort_lastp(stack_b, stack_a, &max_index);
+		ft_sort_lastpart(stack_b, stack_a, &max_index);
 		last_move(stack_a, stack_b);
 	}
 }

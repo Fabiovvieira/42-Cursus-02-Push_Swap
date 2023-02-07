@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:18:36 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/27 17:29:17 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:25:50 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	apply_func(t_list **lst_a, t_list **lst_b, char *str);
 
 int		min_index(t_list **lst);
 int		max_index(t_list **lst);
-void	check_indexmin_partition(int *flag, int i, int *imin, int size);
+int		ft_abs(int x, int y);
+void	check_indexmin_partition(int i, int *imin, int size, int *absstart);
 int		get_index_partition(t_list **lst, int partition);
 
 int		insert_node(t_list **lst, char *str);
@@ -50,7 +51,7 @@ void	sort_3(t_list **lst);
 void	sort_2(t_list **lst);
 
 void	aux_laspart(t_list **lst_a, t_list **lst_b, int *index, int size);
-void	ft_sort_lastp(t_list **lst_a, t_list **lst_b, int (*func)(t_list **));
+void	ft_sort_lastpart(t_list **lst_a, t_list **lst_b, int (*fun)(t_list **));
 void	check_num_part(t_list **lst_a, t_list **lst_b, int multpart, int part);
 
 void	ft_sort_plus_100(t_list **lst_a, t_list **lst_b, int partition);
@@ -66,5 +67,8 @@ int		insert_with_split(t_list **stack_a, char ***list, char **argv);
 int		insert_with_multiarg(t_list **stack_a, int argc, char **argv);
 
 int		check_sort(t_list *stack_a);
+
+void	ft_sort_plus_100_1(t_list **lst_a, t_list **lst_b, int partition);
+int		get_index_partition_1(t_list **lst, int partition);
 
 #endif

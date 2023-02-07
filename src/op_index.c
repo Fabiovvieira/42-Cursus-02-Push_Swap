@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 21:27:44 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/27 17:29:23 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:57:27 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,30 +60,22 @@ int	max_index(t_list **lst)
 	return (indexmax);
 }
 
-void	check_indexmin_partition(int *flag, int i, int *imin, int size)
+int	ft_abs(int x, int y)
 {
-	if (*flag == 0)
+	if (y > x)
+		return (y - x);
+	return (x - y);
+}
+
+void	check_indexmin_partition(int i, int *imin, int size, int *absstart)
+{
+	int	abs;
+
+	abs = ft_abs(i, size / 2);
+	if (abs > *absstart)
 	{
 		*imin = i;
-		*flag = 1;
-	}
-	else
-	{
-		if (i <= size / 2)
-		{
-			if (i <= *imin)
-				*imin = i;
-		}
-		else
-		{
-			if (*imin <= size / 2)
-			{
-				if ((size - 1 - i) < *imin)
-					*imin = i;
-			}
-			else if (i > *imin)
-				*imin = i;
-		}
+		*absstart = abs;
 	}
 }
 
@@ -93,18 +85,43 @@ int	get_index_partition(t_list **lst, int partition)
 	int		indexmin;
 	t_list	*tmp;
 	int		size;
-	int		flag;
+	int		absstart;
 
 	i = 0;
 	size = ft_lstsize(*lst);
 	indexmin = size;
-	flag = 0;
+	absstart = 0;
 	tmp = *lst;
 	while (i < ft_lstsize(*lst))
 	{
-		if (*(tmp->index) < partition)
+		if (*(tmp->index) <= partition)
 		{
-			check_indexmin_partition(&flag, i, &indexmin, size);
+			check_indexmin_partition(i, &indexmin, size, &absstart);
+		}
+		tmp = tmp->next;
+		i++;
+	}
+	return (indexmin);
+}
+
+int	get_index_partition_1(t_list **lst, int partition)
+{
+	int		i;
+	int		indexmin;
+	t_list	*tmp;
+	int		size;
+	int		absstart;
+
+	i = 0;
+	size = ft_lstsize(*lst);
+	indexmin = 0;
+	absstart = 0;
+	tmp = *lst;
+	while (i < ft_lstsize(*lst))
+	{
+		if (*(tmp->index) >= partition)
+		{
+			check_indexmin_partition(i, &indexmin, size, &absstart);
 		}
 		tmp = tmp->next;
 		i++;
