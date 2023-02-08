@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 21:27:44 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/02/07 17:57:27 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/02/08 00:14:06 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,31 +95,6 @@ int	get_index_partition(t_list **lst, int partition)
 	while (i < ft_lstsize(*lst))
 	{
 		if (*(tmp->index) <= partition)
-		{
-			check_indexmin_partition(i, &indexmin, size, &absstart);
-		}
-		tmp = tmp->next;
-		i++;
-	}
-	return (indexmin);
-}
-
-int	get_index_partition_1(t_list **lst, int partition)
-{
-	int		i;
-	int		indexmin;
-	t_list	*tmp;
-	int		size;
-	int		absstart;
-
-	i = 0;
-	size = ft_lstsize(*lst);
-	indexmin = 0;
-	absstart = 0;
-	tmp = *lst;
-	while (i < ft_lstsize(*lst))
-	{
-		if (*(tmp->index) >= partition)
 		{
 			check_indexmin_partition(i, &indexmin, size, &absstart);
 		}

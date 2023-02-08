@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:18:36 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/02/07 17:25:50 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/02/08 18:51:55 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-void	ft_lstprint(t_list **lst);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_sa(t_list **lst);
 void	ft_sb(t_list **lst);
@@ -30,7 +29,9 @@ t_list	*ft_rrb(t_list *lst);
 void	ft_rrr(t_list **lst_a, t_list **lst_b);
 void	ft_pb(t_list **lst_a, t_list **lst_b);
 void	ft_pa(t_list **lst_b, t_list **lst_a);
-void	apply_func(t_list **lst_a, t_list **lst_b, char *str);
+void	apply_func(t_list **lst_a, t_list **lst_b, char **str);
+void	ft_free(t_list **stack_a, t_list **stack_b, char *str);
+void	ft_error(t_list **last_a, t_list **last_b, char **str);
 
 int		min_index(t_list **lst);
 int		max_index(t_list **lst);
@@ -66,9 +67,39 @@ void	select_sort(t_list **stack_a, t_list **stack_b, int size);
 int		insert_with_split(t_list **stack_a, char ***list, char **argv);
 int		insert_with_multiarg(t_list **stack_a, int argc, char **argv);
 
+/*Verify if the stack passed as argument is sort or not*/
 int		check_sort(t_list *stack_a);
 
-void	ft_sort_plus_100_1(t_list **lst_a, t_list **lst_b, int partition);
-int		get_index_partition_1(t_list **lst, int partition);
+/*Contain all the logic and functions to sort a set of more than 300 numbers
+and less than 1000 numbers*/
+void	sort_300_plus(t_list **stack_a, t_list **stack_b);
+
+/*Function used when moving from stack B to A:
+Based the argument i, which is the number that will make less move
+to get to the other stack, moves this number to the top
+using "shiftup" and push it */
+void	move_up_push_2(t_list **lst_a, t_list **lst_b, int *i, int *size);
+
+/*Function used when moving from stack B to A:
+Based the argument i, which is the number that will make less
+move to get to the other stack, moves this number to the top
+using "shiftdown" and push it */
+void	move_down_push_2(t_list **lst_a, t_list **lst_b, int *i, int *size);
+
+/*Function used when moving from stack B to A:
+Move all the numbers from stack B to A getting the numbers
+that are inside the biggers partitions first*/
+void	ft_sort_plus_100_2(t_list **lst_a, t_list **lst_b, int partition);
+
+/*Function used when moving from stack B to A:
+Get the index of the number in the stack B which is closest to the
+top or bottom of the stack*/
+int		get_index_partition_2(t_list **lst, int partition);
+
+/*Function used when moving from stack B to A:
+After already have moved the number to stack A, other division is made in the
+partition moving smallers numbers of the partition to the bottom of the
+stack A using "ra" e keeping the biggers numbers at the top of the stack A*/
+void	check_num_part2(t_list **lst_a, t_list **lst_b, int multpart, int part);
 
 #endif

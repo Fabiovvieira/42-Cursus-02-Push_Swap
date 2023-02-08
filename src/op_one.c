@@ -6,31 +6,11 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 18:50:40 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/25 22:47:56 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/02/08 12:06:01 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	ft_lstprint(t_list **lst)
-{
-	t_list	*tmp;
-	int		i;
-
-	i = 0;
-	if (*lst == NULL)
-	{
-		ft_printf("Empty list\n");
-		return ;
-	}
-	tmp = (*lst);
-	while (tmp)
-	{
-		ft_printf("%d ", *(long *)(tmp->content));
-		tmp = tmp->next;
-		i++;
-	}
-}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

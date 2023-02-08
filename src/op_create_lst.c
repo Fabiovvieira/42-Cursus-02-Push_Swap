@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 22:41:06 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/01/26 11:36:32 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/02/08 14:22:41 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	ft_strisdigit(char *str)
 			return (0);
 		i++;
 	}
+	if ((str[0] == 43 || str[0] == 45) && i == 1)
+		return (0);
 	return (1);
 }
 
@@ -62,14 +64,22 @@ int	insert_node(t_list **lst, char *str)
 {
 	long	*num;
 
-	num = malloc(sizeof(long));
+	if (str[0] == 0)
+		return (0);
 	if (!ft_strisdigit(str))
 		return (0);
+	num = malloc(sizeof(long));
 	*num = ft_atoi(str);
 	if (*num > 2147483647 || *num < -2147483648)
+	{
+		free(num);
 		return (0);
+	}
 	if (check_dup(lst, *num))
+	{
+		free(num);
 		return (0);
+	}
 	ft_lstadd_back(lst, ft_nodenew(num));
 	return (1);
 }
